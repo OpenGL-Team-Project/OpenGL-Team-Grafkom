@@ -47,7 +47,16 @@ void MainEngine::Render() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Pass perspective projection matrix
-	glm::mat4 projection = glm::perspective(45.0f, (GLfloat)this->screenWidth / (GLfloat)this->screenHeight, 0.1f, 100.0f);
+	bool useDefaultCamera = false;
+	glm::mat4 projection;
+	if (useDefaultCamera) {
+		glm::mat4 projection = glm::perspective(45.0f, (GLfloat)this->screenWidth / (GLfloat)this->screenHeight, 0.1f, 100.0f);
+	}
+	else {
+		GLfloat aspect = (GLfloat)this->screenWidth / (GLfloat)this->screenHeight;
+		GLfloat camHeight = 5.0f;
+		glm::mat4 projection = glm::ortho(-aspect * camHeight / 2.0f, aspect * camHeight / 2.0f, -camHeight / 2.0f, camHeight / 2.0f, 1000.0f, -1000.0f);
+	}
 	GLint projLoc = glGetUniformLocation(this->shader.GetShader(), "projection");
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
@@ -56,7 +65,7 @@ void MainEngine::Render() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// LookAt camera (position, target/direction, up)
-	glm::mat4 view = glm::lookAt(glm::vec3(0, 1, 2), glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 view = glm::lookAt(glm::vec3(2.0f, -1.3f, 2.0f), glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
 	GLint viewLoc = glGetUniformLocation(this->shader.GetShader(), "view");
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 

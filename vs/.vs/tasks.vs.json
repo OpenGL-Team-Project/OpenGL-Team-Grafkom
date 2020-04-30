@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-FinalProject-OpenGL-Team",
+      "appliesTo": "FinalProject-OpenGL-Team/",
+      "type": "launch"
+    }
+  ]
+}
