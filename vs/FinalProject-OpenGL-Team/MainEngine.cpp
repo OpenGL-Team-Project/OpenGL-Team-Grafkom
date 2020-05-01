@@ -50,12 +50,12 @@ void MainEngine::Render() {
 	bool useDefaultCamera = false;
 	glm::mat4 projection;
 	if (useDefaultCamera) {
-		glm::mat4 projection = glm::perspective(45.0f, (GLfloat)this->screenWidth / (GLfloat)this->screenHeight, 0.1f, 100.0f);
+		projection = glm::perspective(45.0f, (GLfloat)this->screenWidth / (GLfloat)this->screenHeight, 0.1f, 100.0f);
 	}
 	else {
 		GLfloat aspect = (GLfloat)this->screenWidth / (GLfloat)this->screenHeight;
 		GLfloat camHeight = 5.0f;
-		glm::mat4 projection = glm::ortho(-aspect * camHeight / 2.0f, aspect * camHeight / 2.0f, -camHeight / 2.0f, camHeight / 2.0f, 1000.0f, -1000.0f);
+		projection = glm::ortho(-aspect * camHeight / 2.0f, aspect * camHeight / 2.0f, -camHeight / 2.0f, camHeight / 2.0f, 1000.0f, -1000.0f);
 	}
 	GLint projLoc = glGetUniformLocation(this->shader.GetShader(), "projection");
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
