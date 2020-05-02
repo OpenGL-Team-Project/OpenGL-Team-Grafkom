@@ -17,8 +17,10 @@ void MainEngine::Init() {
 	shader = Shader("vertexShader.vert", "fragmentShader.frag");
 	plane = Object3D();
 	cube = Object3D();
+	block = Object3D();
 
 	BuildCube();
+	BuildBlock();
 
 }
 
@@ -40,22 +42,17 @@ void MainEngine::Update(double deltaTime) {
 
 }
 
-void MainEngine::Render() {
-	glViewport(0, 0, this->screenWidth, this->screenHeight);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
+void MainEngine::Camera() {
 	// Pass perspective projection matrix
 	bool useDefaultCamera = false;
 	glm::mat4 projection;
 	if (useDefaultCamera) {
-		glm::mat4 projection = glm::perspective(45.0f, (GLfloat)this->screenWidth / (GLfloat)this->screenHeight, 0.1f, 100.0f);
+		projection = glm::perspective(45.0f, (GLfloat)this->screenWidth / (GLfloat)this->screenHeight, 0.1f, 100.0f);
 	}
 	else {
 		GLfloat aspect = (GLfloat)this->screenWidth / (GLfloat)this->screenHeight;
 		GLfloat camHeight = 5.0f;
-		glm::mat4 projection = glm::ortho(-aspect * camHeight / 2.0f, aspect * camHeight / 2.0f, -camHeight / 2.0f, camHeight / 2.0f, 1000.0f, -1000.0f);
+		projection = glm::ortho(-aspect * camHeight / 2.0f, aspect * camHeight / 2.0f, -camHeight / 2.0f, camHeight / 2.0f, 1000.0f, -1000.0f);
 	}
 	GLint projLoc = glGetUniformLocation(this->shader.GetShader(), "projection");
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
@@ -68,11 +65,18 @@ void MainEngine::Render() {
 	glm::mat4 view = glm::lookAt(glm::vec3(2.0f, -1.3f, 2.0f), glm::vec3(0, 0, 0), glm::vec3(0.0f, 1.0f, 0.0f));
 	GLint viewLoc = glGetUniformLocation(this->shader.GetShader(), "view");
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+}
+
+void MainEngine::Render() {
+	glViewport(0, 0, this->screenWidth, this->screenHeight);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	Camera();
 
 	DrawCube();
-
-
-
+	   
 	glDisable(GL_BLEND);
 	glDisable(GL_DEPTH_TEST);
 
@@ -136,6 +140,62 @@ void MainEngine::BuildCube() {
 	cube.SetShader(shader);
 	cube.VerticesDraw(sizeof(indices));
 	cube.ApplyTexture("diamond_ore.png");
+}
+
+void MainEngine::BuildBlock() {
+
+	float vertices[] = {
+		// format position, tex coords
+		// front
+		0,    0, 0.5, 0, 0, //0
+		0.25, 0, 0.5, 1, 0, //1
+		0.25, 1, 0.5, 1, 1, //2
+		0,    1, 0.5, 0, 1, //3
+
+		// right
+		0.25, 0, 0.5, 0, 0, //4
+		0.25, 0, 0  , 1, 0, //5
+		0.25, 1, 0  , 1, 1, //6
+		0.25, 1, 0.5, 0, 1, //7
+
+		// back
+		0,    0, 0, 0, 0, //8
+		0.25, 0, 0, 1, 0, //9
+		0.25, 1, 0, 1, 1, //10
+		0,    1, 0, 0, 1, //11
+
+		// left
+		0, 1, 0,   0, 0, //12
+		0, 1, 0.5, 1, 0, //13
+		0, 0, 0.5, 1, 1, //14
+		0, 0, 0,   1, 1, //15
+
+		// upper
+		0,    1, 0.5, 0, 0, //16
+		0.25, 1, 0.5, 1, 0, //17
+		0.25, 1, 0,   1, 1, //18
+		0,    1, 0,   0, 1, //19
+
+		// bottom
+		0,    0, 0.5, 0, 0, //20
+		0.25, 0, 0.5, 1, 0, //21
+		0.25, 0, 0,   1, 1, //22
+		0,    0, 0,   0, 1, //23
+	};
+
+	unsigned int indices[] = {
+		8,  9,  10, 8,  10, 11,  // back
+		20, 22, 21, 20, 23, 22,   // bottom
+		4,  5,  6,  4,  6,  7,   // right
+		12, 14, 13, 12, 15, 14,  // left
+		16, 18, 17, 16, 19, 18,  // upper
+		0,  1,  2,  0,  2,  3   // front
+	};
+
+	cube.BuildObject(vertices, sizeof(vertices) , indices, sizeof(indices));
+	cube.SetShader(shader);
+	cube.VerticesDraw(sizeof(indices));
+	cube.ApplyTexture("dirt.png");
 }
 
 void MainEngine::DrawCube()

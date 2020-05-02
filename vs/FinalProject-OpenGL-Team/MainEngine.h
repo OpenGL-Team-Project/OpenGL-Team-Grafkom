@@ -16,6 +16,7 @@ public:
 	~MainEngine();
 	Object3D cube;
 	Object3D plane;
+	Object3D block;
 private:
 	Shader shader;
 	virtual void Init();
@@ -23,7 +24,9 @@ private:
 	virtual void Update(double deltaTime);
 	virtual void Render();
 	virtual void ProcessInput(GLFWwindow* window);
+	void Camera();
 	void BuildCube();
+	void BuildBlock();
 	void DrawCube();
 };
 
