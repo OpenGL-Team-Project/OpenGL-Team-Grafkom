@@ -239,7 +239,3 @@ void RenderEngine::UseShader(GLuint program)
 	// Uses the current shader
 	glUseProgram(program);
 }
-
-
-
-

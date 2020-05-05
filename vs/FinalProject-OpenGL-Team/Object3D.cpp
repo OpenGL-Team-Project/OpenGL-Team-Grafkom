@@ -1,7 +1,8 @@
 #include "Object3D.h"
 
 Object3D::Object3D(){
-
+	transform = Transform();
+	shader = Shader();
 }
 
 Object3D::~Object3D(){
@@ -12,6 +13,10 @@ void Object3D::DeInit() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
+}
+
+void Object3D::CreateObject(const char* vertexPath, const char* fragmentPath) {
+	shader.BuildShader(vertexPath, fragmentPath);
 }
 
 //This Method is for default vertex shader
@@ -53,6 +58,10 @@ void Object3D::SetShader(Shader shader) {
 	this->shader = shader;
 }
 
+GLuint Object3D::GetShader() {
+	return shader.GetShader();
+}
+
 void Object3D::VerticesDraw(int verticesDraw) {
 	this->verticesDraw = verticesDraw;
 }
@@ -72,16 +81,21 @@ GLuint Object3D::GetEBO() {
 void Object3D::Render() {
 	shader.Use();
 
+	transform.Execute(shader);
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
-	glUniform1i(glGetUniformLocation(this->shader.GetShader(), "ourTexture"), 0);
+	glUniform1i(glGetUniformLocation(shader.GetShader(), "ourTexture"), 0);
 
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 
 	glDrawElements(GL_TRIANGLES, verticesDraw, GL_UNSIGNED_INT, 0);
+	//glDrawArrays(GL_TRIANGLES, 0, verticesDraw);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	//glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
+	//shader.UnUse();
+
 }
 
 void Object3D::ApplyTexture(const char* _texturePath) {

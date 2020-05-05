@@ -1,2 +1,2 @@
-#TargetFrameworkVersion=v4.0:PlatformToolSet=v142:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0
-Debug|Win32|D:\Kuliah\Grafika Komputer dan Visualisasi\OpenGL-Team-Grafkom\vs\|
+PlatformToolSet=v142:VCToolArchitecture=Native32Bit:VCToolsVersion=14.25.28610:TargetPlatformVersion=10.0.18362.0:
+Debug|Win32|E:\Game Development\ScratchCpp\OpenGL-Team-Grafkom\vs\|

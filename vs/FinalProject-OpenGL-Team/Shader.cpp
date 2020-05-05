@@ -8,7 +8,7 @@ Shader::~Shader() {
 
 }
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath) {
+void Shader::BuildShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath) {
 	// 1. Retrieve the vertex/fragment source code from filePath
 	std::string vertexCode, fragmentCode, geometryCode;
 	std::ifstream vShaderFile, fShaderFile, gShaderFile;
@@ -90,6 +90,10 @@ GLuint Shader::GetShader() {
 
 void Shader::Use() {
 	glUseProgram(shaderProgram);
+}
+
+void Shader::UnUse() {
+	glUseProgram(0);
 }
 
 void Shader::Err(std::string errorString) {

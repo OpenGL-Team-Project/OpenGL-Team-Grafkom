@@ -141,17 +141,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="MainEngine.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="RenderEngine.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\deps\include\glad\glad.c" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="MainEngine.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="RenderEngine.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="body.png" />

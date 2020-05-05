@@ -10,20 +10,27 @@
 #include <glm/gtx/vector_angle.hpp>
 #include <SOIL/SOIL.h>
 #include "Shader.h"
+#include "Transform.h"
 
 class Object3D {
 public:
 	Object3D();
 	~Object3D();
+
+	Transform transform;
+
+	void CreateObject(const char* vertexPath, const char* fragmentPath);
 	void BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize);
 	GLuint GetVAO();
 	GLuint GetVBO();
 	GLuint GetEBO();
+	GLuint GetShader();
 	void SetShader(Shader shader);
 	void VerticesDraw(int verticesDraw);
 	void Render();
 	void ApplyTexture(const char* _texturePath);
 	void DeInit();
+	void SetOrigin(glm::vec3 origin);
 
 private:
 	GLuint VAO, VBO, EBO;

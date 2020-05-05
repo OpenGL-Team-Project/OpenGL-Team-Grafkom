@@ -351,3 +351,8 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+vs/FinalProject-OpenGL-Team/Debug/FinalPro.6CACD623.tlog/FinalProject-OpenGL-Team.lastbuildstate
+*.lastbuildstate
+vs/FinalProject-OpenGL-Team/Debug/FinalPro.6CACD623.tlog/link.read.1.tlog
+*.tlog
+vs/.vs/Grafika Komputer dan Visualisasi/v16/Browse.VC.db

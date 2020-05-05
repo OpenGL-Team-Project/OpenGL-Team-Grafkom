@@ -12,9 +12,10 @@ class Shader {
 public:
 	Shader();
 	~Shader();
-	Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+	void BuildShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 	GLuint GetShader();
 	void Use();
+	void UnUse();
 private:
 	GLuint shaderProgram;
 	void Err(std::string errorString);

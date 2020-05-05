@@ -7,6 +7,7 @@
 #include <SOIL/SOIL.h>
 #include "Shader.h"
 #include "Object3D.h"
+#include "Camera.h"
 
 class MainEngine :
 	public RenderEngine
@@ -18,15 +19,14 @@ public:
 	Object3D plane;
 	Object3D block;
 private:
-	Shader shader;
 	virtual void Init();
 	virtual void DeInit();
 	virtual void Update(double deltaTime);
 	virtual void Render();
 	virtual void ProcessInput(GLFWwindow* window);
-	void Camera();
 	void BuildCube();
 	void BuildBlock();
-	void DrawCube();
+	void DrawObject();
+	Camera camera;
 };
 
