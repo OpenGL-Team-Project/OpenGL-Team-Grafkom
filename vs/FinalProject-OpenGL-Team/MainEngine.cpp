@@ -19,11 +19,14 @@ void MainEngine::Init() {
 	plane = Object3D();
 	cube = Object3D();
 	block = Object3D();
+	light = Light();
 
 	camera.SetDefault(false);
 
+	BuildLight();
 	BuildCube();
 	BuildBlock();
+	
 
 }
 
@@ -66,32 +69,49 @@ void MainEngine::Update(double deltaTime) {
 }
 
 void MainEngine::DrawObject() {
-	camera.RenderCamera(this->screenWidth, this->screenHeight);
+	camera.RenderCamera(this->screenWidth, this->screenHeight);	
 
 	//Projection the object here
+	//light
+
+	glUniformMatrix4fv(glGetUniformLocation(light.GetShader(), "projection"), 1, GL_FALSE, glm::value_ptr(camera.projection));
+	glUniformMatrix4fv(glGetUniformLocation(light.GetShader(), "view"), 1, GL_FALSE, glm::value_ptr(camera.view));
+	light.Render();
+
 	//cube
+	cube.UseShader();
 	glUniformMatrix4fv(glGetUniformLocation(cube.GetShader(), "projection"), 1, GL_FALSE, glm::value_ptr(camera.projection));
 	glUniformMatrix4fv(glGetUniformLocation(cube.GetShader(), "view"), 1, GL_FALSE, glm::value_ptr(camera.view));
+	glUniform3f(glGetUniformLocation(cube.GetShader(), "lightColor"), light.GetColor().x, light.GetColor().y, light.GetColor().z);
 	cube.Render();
 	
 
 	//block
+	block.UseShader();
 	glUniformMatrix4fv(glGetUniformLocation(block.GetShader(), "projection"), 1, GL_FALSE, glm::value_ptr(camera.projection));
 	glUniformMatrix4fv(glGetUniformLocation(block.GetShader(), "view"), 1, GL_FALSE, glm::value_ptr(camera.view));
+	glUniform3f(glGetUniformLocation(block.GetShader(), "lightColor"), light.GetColor().x, light.GetColor().y, light.GetColor().z);
 	block.Render();
+
 }
 
 void MainEngine::Render() {
 	glViewport(0, 0, this->screenWidth, this->screenHeight);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
 	DrawObject();
 	   
 	glDisable(GL_BLEND);
 	glDisable(GL_DEPTH_TEST);
 
+}
+
+void MainEngine::BuildLight() {
+	light.CreateLight();
+	light.SetColorLight(glm::vec3(1.0f, 1.0f, 1.0f));
+	
 }
 
 void MainEngine::BuildCube() {

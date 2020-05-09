@@ -21,7 +21,7 @@ void Object3D::CreateObject(const char* vertexPath, const char* fragmentPath) {
 
 //This Method is for default vertex shader
 //vertices must include vec3 position and vec2 texCoord
-void Object3D::BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize) {
+void Object3D::BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize, bool using_texture) {
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -35,13 +35,23 @@ void Object3D::BuildObject(float* _vertices, size_t verticesSize, unsigned int* 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, _indices, GL_STATIC_DRAW);
 
-	// define position pointer layout 0
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(0);
+	
 
-	// define texcoord pointer layout 1
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
+	textureEnabled = using_texture;
+	if (textureEnabled) {
+		// define position pointer layout 0
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(0);
+
+		// define texcoord pointer layout 1
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(1);
+	}
+	else {
+		// define position pointer layout 0
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(0);
+	}
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -83,9 +93,11 @@ void Object3D::Render() {
 
 	transform.Execute(shader);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glUniform1i(glGetUniformLocation(shader.GetShader(), "ourTexture"), 0);
+	if (textureEnabled) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glUniform1i(glGetUniformLocation(shader.GetShader(), "ourTexture"), 0);
+	}
 
 	glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 
@@ -99,16 +111,25 @@ void Object3D::Render() {
 }
 
 void Object3D::ApplyTexture(const char* _texturePath) {
-	// load image into texture memory
-	// ------------------------------
-	// Load and create a texture 
-	glGenTextures(1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	int width, height;
-	unsigned char* image = SOIL_load_image(_texturePath, &width, &height, 0, SOIL_LOAD_RGBA);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	if (textureEnabled) {
+		// load image into texture memory
+		// ------------------------------
+		// Load and create a texture 
+		glGenTextures(1, &textureID);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		int width, height;
+		unsigned char* image = SOIL_load_image(_texturePath, &width, &height, 0, SOIL_LOAD_RGBA);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+		SOIL_free_image_data(image);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	else {
+		std::cout << "This ibject is not using Texture when build. \n" << std::endl;
+	}
+}
+
+void Object3D::UseShader() {
+	shader.Use();
 }

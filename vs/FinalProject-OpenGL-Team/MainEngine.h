@@ -9,6 +9,7 @@
 #include "Object3D.h"
 #include "Camera.h"
 #include "Control.h"
+#include "Light.h"
 
 class MainEngine :
 	public RenderEngine
@@ -19,6 +20,8 @@ public:
 	Object3D cube;
 	Object3D plane;
 	Object3D block;
+	Light light;
+
 private:
 	virtual void Init();
 	virtual void DeInit();
@@ -28,6 +31,7 @@ private:
 	void BuildCube();
 	void BuildBlock();
 	void DrawObject();
+	void BuildLight();
 	Camera camera;
 	Control control;
 };

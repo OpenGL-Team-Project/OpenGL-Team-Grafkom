@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Control.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="MainEngine.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="RenderEngine.h" />
@@ -153,6 +154,7 @@
     <ClCompile Include="..\..\deps\include\glad\glad.c" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Control.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="MainEngine.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="RenderEngine.cpp" />
@@ -168,6 +170,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.frag" />
+    <None Include="lightFragment.frag" />
+    <None Include="lightVertex.vert" />
     <None Include="vertexShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

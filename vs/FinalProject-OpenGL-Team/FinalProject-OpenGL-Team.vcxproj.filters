@@ -22,6 +22,9 @@
     <Filter Include="Resource Files\Image">
       <UniqueIdentifier>{cec484c2-3961-4676-816f-dd9a054dda9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Light">
+      <UniqueIdentifier>{e127b4cd-6510-478a-97fa-0f2c01985ef6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderEngine.h">
@@ -43,6 +46,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Control.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,6 +77,9 @@
     <ClCompile Include="Control.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="body.png">
@@ -95,6 +104,12 @@
     </None>
     <None Include="vertexShader.vert">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lightVertex.vert">
+      <Filter>Resource Files\Light</Filter>
+    </None>
+    <None Include="lightFragment.frag">
+      <Filter>Resource Files\Light</Filter>
     </None>
   </ItemGroup>
 </Project>
