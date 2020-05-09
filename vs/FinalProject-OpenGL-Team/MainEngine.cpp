@@ -46,8 +46,8 @@ void MainEngine::ProcessInput(GLFWwindow* window) {
 void MainEngine::Update(double deltaTime) {
 	camera.Movement(0.01f * deltaTime);
 
-	cube.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), (float)glfwGetTime() * 10);
-	block.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), (float)glfwGetTime() * 30);
+	cube.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), deltaTime* 0.1f);
+	block.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), deltaTime * 0.3f);
 }
 
 void MainEngine::DrawObject() {

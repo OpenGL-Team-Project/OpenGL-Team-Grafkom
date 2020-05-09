@@ -26,6 +26,7 @@ public :
 	void Scale(glm::vec3 scale);
 	void SetOrigin(glm::vec3 origin);
 	void SetPosition(glm::vec3 newPosition);
+	void setOrientation(glm::vec3 direction, float angle);
 	void Execute(Shader shader);
 
 private:

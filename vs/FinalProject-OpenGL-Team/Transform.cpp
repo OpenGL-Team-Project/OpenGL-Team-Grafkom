@@ -14,7 +14,7 @@ void Transform::Translate(glm::vec3 direction) {
 
 void Transform::Rotate(glm::vec3 direction, float angle) {
 	rotationDirectionTemp = direction;
-	angleTemp = angle;
+	angleTemp += angle;
 }
 
 void Transform::Scale(glm::vec3 scale) {
@@ -27,6 +27,11 @@ void Transform::SetOrigin(glm::vec3 origin) {
 
 void Transform::SetPosition(glm::vec3 newPosition) {
 	position = newPosition;
+}
+
+void Transform::setOrientation(glm::vec3 direction, float angle) {
+	rotationDirectionTemp = direction;
+	angleTemp = angle;
 }
 
 void Transform::Execute(Shader shader) {
