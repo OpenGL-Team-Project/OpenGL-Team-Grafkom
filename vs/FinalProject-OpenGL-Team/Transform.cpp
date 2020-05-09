@@ -26,7 +26,7 @@ void Transform::SetOrigin(glm::vec3 origin) {
 }
 
 void Transform::SetPosition(glm::vec3 newPosition) {
-	position += newPosition;
+	position = newPosition;
 }
 
 void Transform::Execute(Shader shader) {

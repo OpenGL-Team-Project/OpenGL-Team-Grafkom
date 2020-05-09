@@ -44,7 +44,10 @@ void MainEngine::ProcessInput(GLFWwindow* window) {
 }
 
 void MainEngine::Update(double deltaTime) {
+	camera.Movement(0.01f * deltaTime);
 
+	cube.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), (float)glfwGetTime() * 10);
+	block.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), (float)glfwGetTime() * 30);
 }
 
 void MainEngine::DrawObject() {
@@ -68,9 +71,6 @@ void MainEngine::Render() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-
-	cube.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), (float)glfwGetTime() * 10);
-	block.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), (float)glfwGetTime() * 30);
 
 	DrawObject();
 	   

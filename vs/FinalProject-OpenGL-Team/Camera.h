@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/vector_angle.hpp>
+#include "Transform.h"
 
 class Camera {
 public:
@@ -16,9 +17,14 @@ public:
 
 	glm::mat4 projection;
 	glm::mat4 view;
+	glm::vec3 originalPosition;
+	GLfloat angle;
+	Transform transform;
 
 	void SetDefault(bool flag);
 	void RenderCamera(GLfloat width, GLfloat height);
+
+	void Movement(GLfloat angularSpeed);
 
 private:
 	bool defaultCamera = true;
