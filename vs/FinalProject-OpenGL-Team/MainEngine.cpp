@@ -14,14 +14,13 @@ MainEngine::~MainEngine() {
 void MainEngine::Init() {
 	// build and compile our shader program
 	// ------------------------------------
+	control = Control();
 	camera = Camera();
 	plane = Object3D();
 	cube = Object3D();
 	block = Object3D();
 
 	camera.SetDefault(false);
-
-	
 
 	BuildCube();
 	BuildBlock();
@@ -41,10 +40,26 @@ void MainEngine::DeInit() {
 void MainEngine::ProcessInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	control.vk_left = glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS;
+	control.vk_up = glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS;
+	control.vk_right = glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS;
+	control.vk_down = glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS;
 }
 
 void MainEngine::Update(double deltaTime) {
-	camera.Movement(0.01f * deltaTime);
+	if (control.vk_left) {
+		camera.Orbit(-0.1f * deltaTime);
+	} else if (control.vk_right) {
+		camera.Orbit(0.1f * deltaTime);
+	}
+	
+	if (control.vk_up) {
+		camera.Zoom(-0.02f *deltaTime);
+	}
+	else if (control.vk_down) {
+		camera.Zoom(0.02f * deltaTime);
+	}
 
 	cube.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), deltaTime* 0.1f);
 	block.transform.Rotate(glm::vec3(0.0f, 0.0f, 1.0f), deltaTime * 0.3f);

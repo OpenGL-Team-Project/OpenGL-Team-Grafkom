@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Object3D.h"
 #include "Camera.h"
+#include "Control.h"
 
 class MainEngine :
 	public RenderEngine
@@ -28,5 +29,6 @@ private:
 	void BuildBlock();
 	void DrawObject();
 	Camera camera;
+	Control control;
 };
 

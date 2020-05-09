@@ -19,12 +19,15 @@ public:
 	glm::mat4 view;
 	glm::vec3 originalPosition;
 	GLfloat angle;
+	GLfloat camHeight;
 	Transform transform;
 
 	void SetDefault(bool flag);
 	void RenderCamera(GLfloat width, GLfloat height);
 
-	void Movement(GLfloat angularSpeed);
+	void Orbit(GLfloat angularSpeed);
+
+	void Zoom(GLfloat value);
 
 private:
 	bool defaultCamera = true;
