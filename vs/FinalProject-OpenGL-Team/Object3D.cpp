@@ -21,7 +21,7 @@ void Object3D::CreateObject(const char* vertexPath, const char* fragmentPath) {
 
 //This Method is for default vertex shader
 //vertices must include vec3 position and vec2 texCoord
-void Object3D::BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize, bool using_texture) {
+void Object3D::BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize, bool faces_defined, bool using_texture) {
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -38,14 +38,27 @@ void Object3D::BuildObject(float* _vertices, size_t verticesSize, unsigned int* 
 	
 
 	textureEnabled = using_texture;
-	if (textureEnabled) {
+	if (faces_defined && textureEnabled) {
 		// define position pointer layout 0
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
 		glEnableVertexAttribArray(0);
 
-		// define texcoord pointer layout 1
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		// define position pointer layout 1
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(0);
+
+		// define texcoord pointer layout 2
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 		glEnableVertexAttribArray(1);
+	}
+	else if (faces_defined) {
+		// define position pointer layout 0
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(0);
+
+		// define position pointer layout 1
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+		glEnableVertexAttribArray(0);
 	}
 	else {
 		// define position pointer layout 0

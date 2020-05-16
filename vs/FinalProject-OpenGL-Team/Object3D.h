@@ -20,7 +20,7 @@ public:
 	Transform transform;
 
 	void CreateObject(const char* vertexPath, const char* fragmentPath);
-	void BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize, bool using_texture = true);
+	void BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize, bool faces_defined = true, bool using_texture = true);
 	GLuint GetVAO();
 	GLuint GetVBO();
 	GLuint GetEBO();
@@ -30,7 +30,6 @@ public:
 	void Render();
 	void ApplyTexture(const char* _texturePath);
 	void DeInit();
-	void SetOrigin(glm::vec3 origin);
 	void UseShader();
 
 private:

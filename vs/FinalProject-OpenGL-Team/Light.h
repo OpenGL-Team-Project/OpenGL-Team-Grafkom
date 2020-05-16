@@ -16,6 +16,8 @@ public:
 	glm::vec3 GetColor();
 	GLuint GetShader();
 	void UseShader();
+	void Translate(glm::vec3 direction);
+	Transform GetTransform();
 private:
 	glm::vec3 lightColor;
 	Object3D object;

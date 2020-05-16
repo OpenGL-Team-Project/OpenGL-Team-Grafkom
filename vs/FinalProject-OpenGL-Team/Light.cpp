@@ -14,40 +14,40 @@ void Light::CreateLight() {
 	float vertices[] = {
 		// format position, tex coords
 		// front
-		-0.1, -0.1, 0.1,  // 0
-		0.1, -0.1, 0.1,   // 1
-		0.1,  0.1, 0.1,   // 2
-		-0.1,  0.1, 0.1,  // 3
+		-0.5, -0.5, 0.5, // 0
+		 0.5, -0.5, 0.5, // 1
+		 0.5,  0.5, 0.5, // 2
+		-0.5,  0.5, 0.5, // 3
 
 		// right
-		0.1,  0.1,  0.1,  // 4
-		0.1,  0.1, -0.1,  // 5
-		0.1, -0.1, -0.1,  // 6
-		0.1, -0.1,  0.1,  // 7
+		0.5,  0.5,  0.5, // 4
+		0.5,  0.5, -0.5, // 5
+		0.5, -0.5, -0.5, // 6
+		0.5, -0.5,  0.5, // 7
 
 		// back
-		-0.1, -0.1, -0.1, // 8 
-		0.1,  -0.1, -0.1, // 9
-		0.1,   0.1, -0.1, // 10
-		-0.1,  0.1, -0.1, // 11
+		-0.5, -0.5, -0.5, // 8 
+		 0.5, -0.5, -0.5, // 9
+		 0.5,  0.5, -0.5, // 10
+		-0.5,  0.5, -0.5, // 11
 
 		// left
-		-0.1, -0.1, -0.1, // 12
-		-0.1, -0.1,  0.1, // 13
-		-0.1,  0.1,  0.1, // 14
-		-0.1,  0.1, -0.1, // 15
+		-0.5, -0.5, -0.5, // 12
+		-0.5, -0.5,  0.5, // 13
+		-0.5,  0.5,  0.5, // 14
+		-0.5,  0.5, -0.5, // 15
 
 		// upper
-		0.1, 0.1,  0.1,   // 16
-		-0.1, 0.1,  0.1,  // 17
-		-0.1, 0.1, -0.1,  // 18
-		0.1, 0.1, -0.1,   // 19
+		 0.5, 0.5,  0.5, // 16
+		-0.5, 0.5,  0.5, // 17
+		-0.5, 0.5, -0.5, // 18
+		 0.5, 0.5, -0.5, // 19
 
 		// bottom
-		-0.1, -0.1, -0.1, // 20
-		0.1, -0.1, -0.1,  // 21
-		0.1, -0.1,  0.1,  // 22
-		-0.1, -0.1,  0.1, // 23
+		-0.5, -0.5, -0.5, // 20
+		 0.5, -0.5, -0.5, // 21
+		 0.5, -0.5,  0.5, // 22
+		-0.5, -0.5,  0.5, // 23
 	};
 
 	unsigned int indices[] = {
@@ -60,11 +60,20 @@ void Light::CreateLight() {
 
 	};
 
-	object.BuildObject(vertices, sizeof(vertices), indices, sizeof(indices), false);
+	object.BuildObject(vertices, sizeof(vertices), indices, sizeof(indices), false, false);
 	object.VerticesDraw(sizeof(indices));
 
-	object.transform.Scale(glm::vec3(0.5f, 0.5f,0.5f));
+	object.transform.Scale(glm::vec3(0.1f, 0.1f,0.1f));
 	object.transform.Rotate(glm::vec3(1, 1, 1), 90);
+	object.transform.SetPosition(glm::vec3(1, 1, -2));
+}
+
+void Light::Translate(glm::vec3 direction) {
+	object.transform.Translate(direction);
+}
+
+Transform Light::GetTransform() {
+	return object.transform;
 }
 
 void Light::SetColorLight(glm::vec3 color) {
