@@ -19,7 +19,28 @@ public:
 	~MainEngine();
 	Object3D cube;
 	Object3D plane;
-	Object3D block;
+	Object3D soil;
+	Object3D soil1;
+	Object3D soil2;
+	Object3D soil3;
+	Object3D soil4;
+	Object3D soil5;
+	Object3D soil6;
+
+	Object3D tower;
+	
+	Object3D slab;
+	Object3D slab1;
+	Object3D slab2;
+	Object3D slab3;
+	
+	Object3D tree1;
+	Object3D tree2;
+	Object3D tree3;
+
+	Object3D leaf1;
+	Object3D leaf2;
+	Object3D leaf3;
 	Light light;
 
 private:
@@ -29,9 +50,26 @@ private:
 	virtual void Render();
 	virtual void ProcessInput(GLFWwindow* window);
 	void BuildCube();
-	void BuildBlock();
 	void DrawObject();
 	void BuildLight();
+	void BuildSoil();
+	void BuildSoil1();
+	void BuildSoil2();
+	void BuildSoil3();
+	void BuildSoil4();
+	void BuildSoil5();
+	void BuildSoil6();
+	void BuildTower();
+	void BuildSlab();
+	void BuildSlab1();
+	void BuildSlab2();
+	void BuildSlab3();
+	void BuildTree1();
+	void BuildTree2();
+	void BuildTree3();
+	void BuildLeaf1();
+	void BuildLeaf2();
+	void BuildLeaf3();
 	Camera camera;
 	Control control;
 };
