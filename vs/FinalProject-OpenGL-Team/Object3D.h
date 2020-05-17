@@ -36,7 +36,7 @@ public:
 private:
 	GLuint VAO, VBO, EBO;
 	GLuint textureID;
-	Shader shader;
+	Shader shader, depthmap;
 	GLuint verticesDraw;
 	bool textureEnabled;
 };
