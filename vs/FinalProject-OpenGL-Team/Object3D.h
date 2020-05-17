@@ -20,6 +20,7 @@ public:
 	Transform transform;
 
 	void CreateObject(const char* vertexPath, const char* fragmentPath);
+	void CreateObjectShader(Shader shader);
 	void BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize, bool faces_defined = true, bool using_texture = true);
 	GLuint GetVAO();
 	GLuint GetVBO();

@@ -19,6 +19,10 @@ void Object3D::CreateObject(const char* vertexPath, const char* fragmentPath) {
 	shader.BuildShader(vertexPath, fragmentPath);
 }
 
+void Object3D::CreateObjectShader(Shader shader) {
+	this->shader = shader;
+}
+
 //This Method is for default vertex shader
 //vertices must include vec3 position and vec2 texCoord
 void Object3D::BuildObject(float* _vertices, size_t verticesSize, unsigned int* _indices, size_t indicesSize, bool faces_defined, bool using_texture) {

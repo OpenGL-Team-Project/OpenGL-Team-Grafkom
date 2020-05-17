@@ -42,6 +42,9 @@ public:
 	Object3D leaf2;
 	Object3D leaf3;
 	Light light;
+	Shader depthmapShader, shadowmapShader;
+	GLuint depthMapFBO, depthMap;
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 
 private:
 	virtual void Init();
@@ -70,6 +73,8 @@ private:
 	void BuildLeaf1();
 	void BuildLeaf2();
 	void BuildLeaf3();
+	void BuildDepthMap();
+	void BuildShaders();
 	Camera camera;
 	Control control;
 };

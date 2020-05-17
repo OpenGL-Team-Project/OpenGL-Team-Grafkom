@@ -169,6 +169,10 @@
     <Image Include="emerald_block.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Lesson09\depthMap.frag" />
+    <None Include="..\Lesson09\depthMap.vert" />
+    <None Include="..\Lesson09\shadowMapping.frag" />
+    <None Include="..\Lesson09\shadowMapping.vert" />
     <None Include="fragmentShader.frag" />
     <None Include="lightFragment.frag" />
     <None Include="lightVertex.vert" />

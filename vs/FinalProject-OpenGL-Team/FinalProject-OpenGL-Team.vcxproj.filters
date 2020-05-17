@@ -111,5 +111,17 @@
     <None Include="lightFragment.frag">
       <Filter>Resource Files\Light</Filter>
     </None>
+    <None Include="..\Lesson09\depthMap.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Lesson09\depthMap.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Lesson09\shadowMapping.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Lesson09\shadowMapping.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

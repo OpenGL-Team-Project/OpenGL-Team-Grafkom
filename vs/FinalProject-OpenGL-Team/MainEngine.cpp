@@ -62,6 +62,9 @@ unsigned int indices[] = {
 void MainEngine::Init() {
 	// build and compile our shader program
 	// ------------------------------------
+	BuildShaders();
+	BuildDepthMap();
+
 	control = Control();
 	camera = Camera();
 	plane = Object3D();
@@ -388,6 +391,27 @@ void MainEngine::DrawObject() {
 }
 
 void MainEngine::Render() {
+	glEnable(GL_DEPTH_TEST);
+
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+
+	// Step 1 Render depth of scene to texture
+	// ----------------------------------------
+	glm::mat4 lightProjection, lightView;
+	glm::mat4 lightSpaceMatrix;
+	float near_plane = 1.0f, far_plane = 7.5f;
+	lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+	lightView = glm::lookAt(glm::vec3(-2.0f, 4.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
+	lightSpaceMatrix = lightProjection * lightView;
+	// render scene from light's point of view
+	glUseProgram(depthmapShader.GetShader());
+	glUniformMatrix4fv(glGetUniformLocation(this->depthmapShader.GetShader(), "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
+	glViewport(0, 0, this->SHADOW_WIDTH, this->SHADOW_HEIGHT);
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	DrawObject();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	glViewport(0, 0, this->screenWidth, this->screenHeight);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -408,7 +432,7 @@ void MainEngine::BuildLight() {
 
 void MainEngine::BuildCube() {
 	
-	cube.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	cube.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -421,7 +445,7 @@ void MainEngine::BuildCube() {
 }
 
 void MainEngine::BuildSoil() {
-	soil.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	soil.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -435,7 +459,7 @@ void MainEngine::BuildSoil() {
 }
 
 void MainEngine::BuildSoil1() {
-	soil1.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	soil1.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -449,7 +473,7 @@ void MainEngine::BuildSoil1() {
 }
 
 void MainEngine::BuildSoil2() {
-	soil2.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	soil2.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -463,7 +487,7 @@ void MainEngine::BuildSoil2() {
 }
 
 void MainEngine::BuildSoil3() {
-	soil3.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	soil3.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -477,7 +501,7 @@ void MainEngine::BuildSoil3() {
 }
 
 void MainEngine::BuildSoil4() {
-	soil4.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	soil4.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -491,7 +515,7 @@ void MainEngine::BuildSoil4() {
 }
 
 void MainEngine::BuildSoil5() {
-	soil5.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	soil5.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -505,7 +529,7 @@ void MainEngine::BuildSoil5() {
 }
 
 void MainEngine::BuildSoil6() {
-	soil6.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	soil6.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -519,7 +543,7 @@ void MainEngine::BuildSoil6() {
 }
 
 void MainEngine::BuildTower() {
-	tower.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	tower.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -533,7 +557,7 @@ void MainEngine::BuildTower() {
 }
 
 void MainEngine::BuildSlab() {
-	slab.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	slab.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -547,7 +571,7 @@ void MainEngine::BuildSlab() {
 }
 
 void MainEngine::BuildSlab1() {
-	slab1.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	slab1.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -561,7 +585,7 @@ void MainEngine::BuildSlab1() {
 }
 
 void MainEngine::BuildSlab2() {
-	slab2.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	slab2.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -575,7 +599,7 @@ void MainEngine::BuildSlab2() {
 }
 
 void MainEngine::BuildSlab3() {
-	slab3.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	slab3.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -589,7 +613,7 @@ void MainEngine::BuildSlab3() {
 }
 
 void MainEngine::BuildTree1() {
-	tree1.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	tree1.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -603,7 +627,7 @@ void MainEngine::BuildTree1() {
 }
 
 void MainEngine::BuildTree2() {
-	tree2.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	tree2.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -617,7 +641,7 @@ void MainEngine::BuildTree2() {
 }
 
 void MainEngine::BuildTree3() {
-	tree3.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	tree3.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -631,7 +655,7 @@ void MainEngine::BuildTree3() {
 }
 
 void MainEngine::BuildLeaf1() {
-	leaf1.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	leaf1.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -645,7 +669,7 @@ void MainEngine::BuildLeaf1() {
 }
 
 void MainEngine::BuildLeaf2() {
-	leaf2.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	leaf2.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -659,7 +683,7 @@ void MainEngine::BuildLeaf2() {
 }
 
 void MainEngine::BuildLeaf3() {
-	leaf3.CreateObject("vertexShader.vert", "fragmentShader.frag");
+	leaf3.CreateObjectShader(shadowmapShader);
 
 	// set up vertex data (and buffer(s)) and configure vertex attributes
 	// ------------------------------------------------------------------
@@ -670,6 +694,41 @@ void MainEngine::BuildLeaf3() {
 	leaf3.transform.SetOrigin(glm::vec3(0.0f, 0.0f, 0.0f));
 	leaf3.transform.Scale(glm::vec3(0.3f, 0.2f, 0.3f));
 	leaf3.transform.SetPosition(glm::vec3(-0.35f, 0.3f, 0.25f));
+}
+
+void MainEngine::BuildDepthMap() {
+	// configure depth map FBO
+	// -----------------------
+	glGenFramebuffers(1, &depthMapFBO);
+	// create depth texture
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, this->SHADOW_WIDTH, this->SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+	// attach depth texture as FBO's depth buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void MainEngine::BuildShaders()
+{
+	// build and compile our shader program
+	// ------------------------------------
+	Shader smapShader = Shader();
+	smapShader.BuildShader("shadowMapping.vert", "shadowMapping.frag", nullptr);
+	shadowmapShader = smapShader;
+	Shader dmapShader = Shader();
+	dmapShader.BuildShader("depthMap.vert", "depthMap.frag", nullptr);
+	depthmapShader = dmapShader;
 }
 
 int main(int argc, char** argv) {
