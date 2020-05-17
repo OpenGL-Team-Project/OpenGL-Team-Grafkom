@@ -1,6 +1,6 @@
 # OpenGL-Team-Grafkom
 
-Repository Kelompok 2 untuk Project Akhir Pemrogramman Game
+Repository Kelompok 2 untuk Project Akhir Grafika Komputer
 
 ![Grafkom OP sangat](https://user-images.githubusercontent.com/47166058/82157891-5ff75e80-98ae-11ea-9bc9-75b9699939ba.gif)
 
