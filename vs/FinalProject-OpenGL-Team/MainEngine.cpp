@@ -675,5 +675,5 @@ void MainEngine::BuildLeaf3() {
 int main(int argc, char** argv) {
 	MainEngine engine = MainEngine();
 	RenderEngine& app = engine;
-	app.Start("Blending Demo", 800, 600, false, false);
+	app.Start("Kelompok 2 - Grafika Komputer A", 1280, 720, false, false);
 }
